@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+<style>
+#__xmlview0--Mainpage
+{
+    background-color: #fff;
+    color:#000;
+    position: absolute;
+    width:60em;
+    height:18em;
+    overflow-x:auto;
+    white-space:nowrap;
+	border: 2px solid black;
+	padding-top:5px;
+	padding-left:5px;
+}
+.adrow
+{
+    background-color: white;
+	border: 1px solid black;
+   	height: 14.90em;
+    width: 9em;
+    overflow: none;
+	display: inline-block;
+	padding-top:25px;
+	text-align:left;
+	cursor: hand;
+}
+.row
+{
+    background-color: white;
+	border: 1px solid black;
+   	height: 14.90em;
+    width: 9em;
+    overflow: none;
+	display: inline-block;
+	padding-top:25px;
+	text-align:left;
+	cursor: hand;
+}
+.column 
+{
+  float: left;
+  content: "";
+  display: table;
+  width: 12px;
+  margin: 1.74px;
+  padding-left:.05em;
+  height: 13.52em;
+ /* background-color: white; */
+  border: 1px solid black;
+  white-space: normal;
+  display: inline-block;
+  text-align:left;
+  overflow: none;
+	     
+}
+</style>
+        <script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+                id="sap-ui-bootstrap"
+                data-sap-ui-libs="sap.m,sap.ui.commons, sap.ui.table, sap.ui.unified"
+                data-sap-ui-theme="sap_bluecrystal">
+        </script>
+        <!-- only load the mobile lib "sap.m" and the "sap_bluecrystal" theme -->
+          <script id="view1" type="sapui5/xmlview">
+            	<mvc:View controllerName="my.own.controller" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:html="http://www.w3.org/1999/xhtml" >
+                <App>
+                <Page title="Editon">
+                <content>
+                  
+                 <html:div id="Mainpage"></html:div>
+                 </content>
+                </Page>
+            </App>  
+      		   </mvc:View>
+          </script>
+
+        <script>
+		 // define a new (simple) Controller type
+		 var divcount = 1;
+            sap.ui.controller("my.own.controller", {
+            });
+            //create the ApplicationHeader control
+            var oAppHeader = new sap.ui.commons.ApplicationHeader("appHeader"); 
+            oAppHeader.setLogoSrc("http://sap.github.io/openui5/images/icotxt_white_220x72_blue_open.png");
+            oAppHeader.setDisplayWelcome(true);
+            oAppHeader.setDisplayLogoff(true);
+			oAppHeader.setUserName("Vinay Sharma");
+            oAppHeader.placeAt("content");
+            
+			
+			var oBtn =  new sap.ui.commons.Button({
+                            text: "Create user", 
+                            press: function() {
+                                openCreateDialog();
+                            }, 
+                        });
+			oBtn.placeAt("content");
+			
+			oBtn =  new sap.ui.commons.Button({
+                            text: "Ad Page", 
+                            press: function() {
+                                adPage();
+                            }, 
+                        });
+            oBtn.placeAt("content");
+			
+            oBtn =  new sap.ui.commons.Button({
+                            text: "AddPage", 
+                            press: function() {
+                                addPage();
+                            }, 
+                        });
+            oBtn.placeAt("content");
+			
+            oBtn =  new sap.ui.commons.Button({
+                text: "Check Ad Position", 
+                press: function() {
+                    getPosition();
+                }, 
+            });
+			oBtn.placeAt("content");
+
+
+			var oView = sap.ui.xmlview({viewContent: jQuery('#view1').html()});
+			oView.placeAt('content');
+
+            // setting up model
+            var oModel = new sap.ui.model.odata.ODataModel("your_service", false);
+            sap.ui.getCore().setModel(oModel);
+                        
+			function allowDrop(ev) {
+			  ev.preventDefault();
+			};
+
+			function drag(ev) {
+			  ev.dataTransfer.setData("text", ev.target.id);
+			};
+
+			function drop(ev) {
+			  ev.preventDefault();
+			  var data = ev.dataTransfer.getData("text");
+			  var a = document.getElementById(data).offsetLeft;
+				var b = document.getElementById(data).offsetTop;
+			console.log(a);
+			console.log(b);
+			  ev.target.appendChild(document.getElementById(data));
+			};
+
+			function adPage() {
+			  var newpage = "<div id='div0' ondrop='drop(event)' ondragover='allowDrop(event)' class='adrow' style='float: left;'><img src='https://media.geeksforgeeks.org/wp-content/uploads/20211014104411/gfg2.png' draggable='true' ondragstart='drag(event)' id='drag2' width='50' height='100'  style='z-index:4;border:2px solid #000000;'><img src='img_w3slogo.gif' draggable='true' ondragstart='drag(event)' id='drag1' width='20' height='31'><img src='https://img.freepik.com/free-vector/instagram-icon_1057-2227.jpg?size=626&ext=jpg' draggable='true' ondragstart='drag(event)' id='drag3' width='40' height='31'><img src='https://img.freepik.com/free-vector/instagram-icon_1057-2227.jpg?size=626&ext=jpg' draggable='true' ondragstart='drag(event)' id='drag4' width='40' height='31'></div>";
+              document.getElementById("__xmlview0--Mainpage").innerHTML += newpage;
+			};
+	
+			function addPage()
+			{
+			  var eId = "div"+ divcount; 
+			   var newpage = "<div  id='"+ eId +"' class='row'><span style='position:absolute;margin:3px;top:3px;'>BTP" + divcount + "<img src='./colors-icon.png' style='width:20px;height:20px;'/></span><p><div ondrop='drop(event)' ondragover='allowDrop(event)' class='column'></div><div ondrop='drop(event)' ondragover='allowDrop(event)' class='column'></div><div ondrop='drop(event)' ondragover='allowDrop(event)' class='column'></div><div ondrop='drop(event)' ondragover='allowDrop(event)' class='column'></div><div ondrop='drop(event)' ondragover='allowDrop(event)' class='column'></div><div ondrop='drop(event)' ondragover='allowDrop(event)' class='column'></div><div ondrop='drop(event)' ondragover='allowDrop(event)' class='column'></div><div ondrop='drop(event)' ondragover='allowDrop(event)' class='column'></div><p></div>";
+              document.getElementById("__xmlview0--Mainpage").innerHTML += newpage;
+			  divcount += 1;
+
+			};
+			function getPosition()
+			{
+				var a = document.getElementById('drag1').offsetLeft;
+				var b = document.getElementById('drag1').offsetTop;
+				//alert(a);
+				//alert(b);
+				var pageName;
+				var matches = [];
+				var searchPage = document.getElementsByClassName("row");
+				for(var i=0; i < searchPage.length; i++){
+				var pageid = searchPage[i].id;	
+				var searchColoum = document.getElementById(pageid).children;
+				for(var j = 0; j < searchColoum.length; j++) {
+					if ( searchColoum[j].tagName == "SPAN")
+				    {
+						pageName = 	searchColoum[j].innerText;
+				    }
+					if(searchColoum[j].tagName == 'DIV') 
+				    {
+				    	var searchAd = searchColoum[j].children;
+				    	for(var k = 0; k < searchAd.length; k++) {
+				        if(searchAd[k].id.indexOf('d') == 0) {
+				           alert("Page "+ pageName + " and Ad id " + searchAd[k].id );
+				         }
+				    	}
+				    }
+				 }
+				}
+			};
+			/*****   CREATE Operation  *****/
+            function openCreateDialog(){ 
+                var oCreateDialog = new sap.ui.commons.Dialog();
+                oCreateDialog.setTitle("Create user");
+                var oSimpleForm = new sap.ui.layout.form.SimpleForm({
+                    maxContainerCols: 2,
+                    content:[
+                        new sap.ui.core.Title({text:"Person"}),
+                        new sap.ui.commons.Label({text:"Email"}),
+                        new sap.ui.commons.TextField({value:""}),
+                        new sap.ui.commons.Label({text:"Firstname"}),
+                        new sap.ui.commons.TextField({value:""}),
+                        new sap.ui.commons.Label({text:"Lastname"}),
+                        new sap.ui.commons.TextField({value:""}),
+                        new sap.ui.commons.Label({text:"Age"}),
+                        new sap.ui.commons.TextField({value:""}),
+                        new sap.ui.commons.Label({text:"Address"}),
+                        new sap.ui.commons.TextField({value:""}),
+                    ]
+                });                
+                oCreateDialog.addContent(oSimpleForm);
+                oCreateDialog.addButton(
+                    new sap.ui.commons.Button({
+                        text: "Submit", 
+                        press: function() {
+                            var content = oSimpleForm.getContent();
+                            var oEntry = {};
+                            oEntry.Email = content[2].getValue();
+                            oEntry.Firstname = content[4].getValue();
+                            oEntry.Lastname = content[6].getValue();
+                            oEntry.Age = content[8].getValue();
+                            oEntry.Address = content[10].getValue();
+                            sap.ui.getCore().getModel().create('/UserSet', oEntry, null, function(){
+                                    oCreateDialog.close();
+                                    sap.ui.getCore().getModel().refresh();
+                                },function(){
+                                    oCreateDialog.close();
+                                    alert("Create failed");
+                                }
+                            );
+                        }
+                    })
+                );
+                oCreateDialog.open();
+            };        
+            
+         
+     
+
+        </script>
+
+    </head>
+    <body class="sapUiBody" role="application">
+        <div id="content"></div>
+    </body>
+</html>
